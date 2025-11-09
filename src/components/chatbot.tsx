@@ -4,7 +4,12 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupTextarea,
+  InputGroupButton,
+  InputGroupAddon,
+} from "@/components/ui/input-group";
 import {
   Select,
   SelectContent,
@@ -242,30 +247,38 @@ export default function ChatBot() {
                 setInput("");
               }
             }}
-            className="flex gap-2"
           >
-            <Input
-              className="flex-1"
-              placeholder="Type your message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={isLoading}
-            />
-            {isLoading ? (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={stop}
-                disabled={!isLoading}
-              >
-                <Spinner className="mr-2 size-4" />
-                Stop
-              </Button>
-            ) : (
-              <Button type="submit" disabled={isLoading || !input.trim()}>
-                <Send className="size-4" />
-              </Button>
-            )}
+            <InputGroup>
+              <InputGroupTextarea
+                placeholder="Type your message..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                disabled={isLoading}
+                rows={1}
+              />
+              <InputGroupAddon align="inline-end">
+                {isLoading ? (
+                  <InputGroupButton
+                    type="button"
+                    variant="outline"
+                    onClick={stop}
+                    disabled={!isLoading}
+                    size="sm"
+                  >
+                    <Spinner className="size-4" />
+                    Stop
+                  </InputGroupButton>
+                ) : (
+                  <InputGroupButton
+                    type="submit"
+                    disabled={isLoading || !input.trim()}
+                    size="sm"
+                  >
+                    <Send className="size-4" />
+                  </InputGroupButton>
+                )}
+              </InputGroupAddon>
+            </InputGroup>
           </form>
         </CardContent>
       </Card>
